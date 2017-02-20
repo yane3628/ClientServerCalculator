@@ -65,6 +65,15 @@ public class Server {
                                     // Close current client socket connection
                                     client.close();
                                 }
+                                else if(message.equals("terminate")) {
+                                    outWriter.println(exitCode);
+                                    printReturn(Integer.toString(exitCode));
+
+                                    // Close current client socket connection
+                                    client.close();
+                                    server.close();
+                                    System.exit(0);
+                                }
                                 else {
                                     outWriter.println("0");
                                 }
