@@ -26,6 +26,8 @@ public class Server {
                 while(true) {
                     try {
                         client = server.accept();
+                        // TODO make sure this address is right when running on two IP addresses
+                        System.out.println("get connection from ... " + client.getInetAddress());
 
                         try {
                             inBuffer = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -39,15 +41,15 @@ public class Server {
 
                         // Exit with 'bye'
                         while(true) {
-                            try{
+                            // try{
                                 message = inBuffer.readLine();
                                 System.out.println(message);
                                 //Send data back to client
                                 // outWriter.println(message);
-                            } catch (IOException e) {
-                                System.out.println("Read failed 2");
-                                System.exit(-1);
-                            }
+                            // } catch (IOException e) {
+                            //     System.out.println("Read failed 2");
+                            //     System.exit(-1);
+                            // }
                             // Deconstruct inBuffer and outWriter
                         }
                     } catch(Exception e) {
