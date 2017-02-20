@@ -6,6 +6,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+    private static int incorrectOperationCommand = -1;
+    private static int numInputsLTTwo = -2;
+    private static int numInputsGTFour = -3;
+    private static int nan = -4;
+    private static int exitCode = -5;
+
     public static void printGet(String message) {
         System.out.println("get: " + message);
     }
@@ -51,6 +57,17 @@ public class Server {
                             // try{
                                 message = inBuffer.readLine();
                                 printGet(message);
+
+                                if (message.equals("bye")) {
+                                    outWriter.println(exitCode);
+                                    printReturn(Integer.toString(exitCode));
+
+                                    // Close current client socket connection
+                                    client.close();
+                                }
+                                else {
+                                    outWriter.println("0");
+                                }
                                 //Send data back to client
                                 // outWriter.println(message);
                             // } catch (IOException e) {

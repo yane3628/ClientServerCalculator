@@ -27,8 +27,16 @@ public class Client {
 
         while(true) {
             userInput = scanner.nextLine();
-
             outWriter.println(userInput);
+
+            message = inBuffer.readLine();
+            printReceive(message);
+
+            if(message.equals("-5")) {
+                server.close();
+                System.exit(0);
+            }
+
         }
         // System.exit(0);
     }
