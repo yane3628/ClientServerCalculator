@@ -159,6 +159,9 @@ public class Server {
                                                     printReturn(Integer.toString(mult));
                                                     break;
                                                 default:
+                                                    // Send error code -1 for incorrect operation command
+                                                    outWriter.println(incorrectOperationCommand);
+                                                    printReturn(Integer.toString(incorrectOperationCommand));
                                                     break;
                                             }
                                         }
