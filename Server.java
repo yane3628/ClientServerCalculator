@@ -26,15 +26,16 @@ public class Server {
                 while(true) {
                     try {
                         client = server.accept();
-                        System.out.println("Connected");
 
                         try {
                             inBuffer = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                            // outWriter = new PrintWriter(client.getOutputStream(), true);
+                            outWriter = new PrintWriter(client.getOutputStream(), true);
                         } catch (IOException e) {
                             System.out.println("Read failed 1");
                             System.exit(-1);
                         }
+
+                        outWriter.println("Hello!");
 
                         // Exit with 'bye'
                         while(true) {

@@ -9,9 +9,14 @@ public class Client {
         String ipAddress = args[0];
         int port = Integer.parseInt(args[1]);
         Socket server = new Socket(ipAddress, port);
+        String message = null;
 
         PrintWriter outWriter = new PrintWriter(server.getOutputStream(), true);
-        // BufferedReader inBuffer = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        BufferedReader inBuffer = new BufferedReader(new InputStreamReader(server.getInputStream()));
+
+        // Reads "Hello!" from server
+        message = inBuffer.readLine();
+        System.out.println(message);
 
         outWriter.println("hello");
         System.exit(0);
