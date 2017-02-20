@@ -1,39 +1,61 @@
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    // private static int serverPort;
-    // private static ServerSocket server;
-    // private static Socket client;
 
-    public static void main(String[] args) throws IOException {
-        ServerSocket server;
-        Socket client;
+    public static void main(String[] args) throws Exception {
+        ServerSocket server = null;
+        Socket client = null;
+        BufferedReader inBuffer = null;
+        PrintWriter outWriter = null;
+        String message = null;
 
-        for(int i = 0; i < args.length; i++) {
-            System.out.println(args[i]);
-        }
-
-        // this.serverPort = Integer.parseInt(args[0]);
+        // Get port number from args
         int serverPort = Integer.parseInt(args[0]);
 
         try {
-            // this.server = new ServerSocket(serverPort);
+            // Initiate ServerSocket
             server = new ServerSocket(serverPort);
 
-            // this.client = server.accept();
-            client = server.accept();
-
             try {
+                // Exit with 'terminate'
                 while(true) {
+                    try {
+                        client = server.accept();
+                        System.out.println("Connected");
+
+                        try {
+                            inBuffer = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                            // outWriter = new PrintWriter(client.getOutputStream(), true);
+                        } catch (IOException e) {
+                            System.out.println("Read failed 1");
+                            System.exit(-1);
+                        }
+
+                        // Exit with 'bye'
+                        while(true) {
+                            try{
+                                message = inBuffer.readLine();
+                                System.out.println(message);
+                                //Send data back to client
+                                // outWriter.println(message);
+                            } catch (IOException e) {
+                                System.out.println("Read failed 2");
+                                System.exit(-1);
+                            }
+                            // Deconstruct inBuffer and outWriter
+                        }
+                    } catch(Exception e) {
+                        System.out.println("Couldn't accept client");
+                    }
+
                     System.out.println("connected");
                 }
-            }
-            finally {
-                // this.client.close();
-                client.close();
-                // this.server.close();
+            } finally { // Change to catch
                 server.close();
             }
         }
