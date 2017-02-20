@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
+    public static void printReceive(String message) {
+        System.out.println("receive: " + message);
+    }
     public static void main(String[] args) throws IOException {
         String ipAddress = args[0];
         int port = Integer.parseInt(args[1]);
@@ -18,7 +21,7 @@ public class Client {
 
         // Reads "Hello!" from server
         message = inBuffer.readLine();
-        System.out.println("recieve: " + message);
+        printReceive(message);
 
         Scanner scanner = new Scanner(System.in);
 

@@ -6,6 +6,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+    public static void printGet(String message) {
+        System.out.println("get: " + message);
+    }
+
+    public static void printReturn(String message) {
+        System.out.print(", return: " + message);
+    }
 
     public static void main(String[] args) throws Exception {
         ServerSocket server = null;
@@ -43,7 +50,7 @@ public class Server {
                         while(true) {
                             // try{
                                 message = inBuffer.readLine();
-                                System.out.println(message);
+                                printGet(message);
                                 //Send data back to client
                                 // outWriter.println(message);
                             // } catch (IOException e) {
