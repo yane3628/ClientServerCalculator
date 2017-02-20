@@ -81,6 +81,7 @@ public class Server {
                                     System.exit(0);
                                 }
                                 else {
+                                    boolean noErrors = true;
                                     // Check if add, subtract, or multiply
                                     try {
                                         Operation operation = Operation.valueOf(messageArray[0]);
@@ -97,26 +98,52 @@ public class Server {
                                             printReturn(Integer.toString(numInputsGTFour));
                                         }
                                         else {
-                                            switch (operation) {
-                                                case add:
-                                                    System.out.println("ADD");
-                                                    outWriter.println("0");
-                                                    printReturn(Integer.toString(0));
+                                            // Check everything is an int (positive)
+                                            for(int i = 1; i < messageArray.length; i++) {
+                                                if(!messageArray[i].matches("\\d+")) {
+                                                    // Send error code -4 for inputs contains non-numbers
+                                                    outWriter.println(nan);
+                                                    printReturn(Integer.toString(nan));
+
+                                                    noErrors = false;
                                                     break;
-                                                case subtract:
-                                                    System.out.println("SUBTRACT");
-                                                    outWriter.println("0");
-                                                    printReturn(Integer.toString(0));
-                                                    break;
-                                                case multiply:
-                                                    System.out.println("MULTIPLY");
-                                                    outWriter.println("0");
-                                                    printReturn(Integer.toString(0));
-                                                    break;
-                                                default:
-                                                    outWriter.println("0");
-                                                    printReturn(Integer.toString(0));
-                                                    break;
+                                                }
+                                            }
+
+                                            if(noErrors) {
+                                                switch (operation) {
+                                                    case add:
+                                                        int sum = 0;
+                                                        for(int i = 1; i < messageArray.length; i++) {
+                                                            sum += Integer.parseInt(messageArray[i]);
+                                                        }
+
+                                                        outWriter.println(sum);
+                                                        printReturn(Integer.toString(sum));
+                                                        break;
+                                                    case subtract:
+                                                        int sub = Integer.parseInt(messageArray[1]);
+                                                        for(int i = 2; i < messageArray.length; i++) {
+                                                            sub -= Integer.parseInt(messageArray[i]);
+                                                        }
+
+                                                        outWriter.println(sub);
+                                                        printReturn(Integer.toString(sub));
+                                                        break;
+                                                    case multiply:
+                                                        int mult = Integer.parseInt(messageArray[1]);
+                                                        for(int i = 2; i < messageArray.length; i++) {
+                                                            mult *= Integer.parseInt(messageArray[i]);
+                                                        }
+
+                                                        outWriter.println(mult);
+                                                        printReturn(Integer.toString(mult));
+                                                        break;
+                                                    default:
+                                                        outWriter.println("0");
+                                                        printReturn(Integer.toString(0));
+                                                        break;
+                                                }
                                             }
                                         }
                                     } catch(IllegalArgumentException e) {
