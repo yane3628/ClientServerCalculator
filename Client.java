@@ -30,11 +30,28 @@ public class Client {
             outWriter.println(userInput);
 
             message = inBuffer.readLine();
-            printReceive(message);
 
-            if(message.equals("-5")) {
-                server.close();
-                System.exit(0);
+            switch (Integer.parseInt(message)) {
+                case -1:
+                    printReceive("incorrect operation command.");
+                    break;
+                case -2:
+                    printReceive("number of inputs is less than two.");
+                    break;
+                case -3:
+                    printReceive("number of inputs is more than four.");
+                    break;
+                case -4:
+                    printReceive("one or more of the inputs contain(s) non-number(s).");
+                    break;
+                case -5:
+                    printReceive("exit.");
+                    server.close();
+                    System.exit(0);
+                    break;
+                default:
+                    printReceive(message);
+                    break;
             }
 
         }
