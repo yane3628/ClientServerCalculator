@@ -83,30 +83,44 @@ public class Server {
                                 else {
                                     // Check if add, subtract, or multiply
                                     try {
-                                        Operation operation = Operation.valueOf(messageArray[0]); // TODO surround with try/catch
-                                        switch (operation) {
-                                            case add:
-                                                System.out.println("ADD");
-                                                outWriter.println("0");
-                                                printReturn(Integer.toString(0));
-                                                break;
-                                            case subtract:
-                                                System.out.println("SUBTRACT");
-                                                outWriter.println("0");
-                                                printReturn(Integer.toString(0));
-                                                break;
-                                            case multiply:
-                                                System.out.println("MULTIPLY");
-                                                outWriter.println("0");
-                                                printReturn(Integer.toString(0));
-                                                break;
-                                            default:
-                                                outWriter.println("0");
-                                                printReturn(Integer.toString(0));
-                                                break;
+                                        Operation operation = Operation.valueOf(messageArray[0]);
+
+                                        // Check number of inputs
+                                        if(messageArray.length < 3) {
+                                            // Send error code -2 for number of inputs is less than two
+                                            outWriter.println(numInputsLTTwo);
+                                            printReturn(Integer.toString(numInputsLTTwo));
+                                        }
+                                        else if(messageArray.length > 5) {
+                                            // Send error code -3 for number of inputs is more than 4
+                                            outWriter.println(numInputsGTFour);
+                                            printReturn(Integer.toString(numInputsGTFour));
+                                        }
+                                        else {
+                                            switch (operation) {
+                                                case add:
+                                                    System.out.println("ADD");
+                                                    outWriter.println("0");
+                                                    printReturn(Integer.toString(0));
+                                                    break;
+                                                case subtract:
+                                                    System.out.println("SUBTRACT");
+                                                    outWriter.println("0");
+                                                    printReturn(Integer.toString(0));
+                                                    break;
+                                                case multiply:
+                                                    System.out.println("MULTIPLY");
+                                                    outWriter.println("0");
+                                                    printReturn(Integer.toString(0));
+                                                    break;
+                                                default:
+                                                    outWriter.println("0");
+                                                    printReturn(Integer.toString(0));
+                                                    break;
+                                            }
                                         }
                                     } catch(IllegalArgumentException e) {
-                                        System.out.println("Illegal operation");
+                                        // Send error code -1 for incorrect operation command
                                         outWriter.println(incorrectOperationCommand);
                                         printReturn(Integer.toString(incorrectOperationCommand));
                                     }
