@@ -12,6 +12,10 @@ public class Server {
     private static int nan = -4;
     private static int exitCode = -5;
 
+    public enum Operation {
+        add, subtract, multiply
+    }
+
     public static void printGet(String message) {
         System.out.print("get: " + message);
     }
@@ -58,14 +62,16 @@ public class Server {
                                 message = inBuffer.readLine();
                                 printGet(message);
 
-                                if (message.equals("bye")) {
+                                String[] messageArray = message.split(" ");
+
+                                if (message.equalsIgnoreCase("bye")) {
                                     outWriter.println(exitCode);
                                     printReturn(Integer.toString(exitCode));
 
                                     // Close current client socket connection
                                     client.close();
                                 }
-                                else if(message.equals("terminate")) {
+                                else if(message.equalsIgnoreCase("terminate")) {
                                     outWriter.println(exitCode);
                                     printReturn(Integer.toString(exitCode));
 
@@ -75,8 +81,36 @@ public class Server {
                                     System.exit(0);
                                 }
                                 else {
-                                    outWriter.println("0");
-                                    printReturn(Integer.toString(0));
+                                    // Check if add, subtract, or multiply
+                                    try {
+                                        Operation operation = Operation.valueOf(messageArray[0]); // TODO surround with try/catch
+                                        switch (operation) {
+                                            case add:
+                                                System.out.println("ADD");
+                                                outWriter.println("0");
+                                                printReturn(Integer.toString(0));
+                                                break;
+                                            case subtract:
+                                                System.out.println("SUBTRACT");
+                                                outWriter.println("0");
+                                                printReturn(Integer.toString(0));
+                                                break;
+                                            case multiply:
+                                                System.out.println("MULTIPLY");
+                                                outWriter.println("0");
+                                                printReturn(Integer.toString(0));
+                                                break;
+                                            default:
+                                                outWriter.println("0");
+                                                printReturn(Integer.toString(0));
+                                                break;
+                                        }
+                                    } catch(IllegalArgumentException e) {
+                                        System.out.println("Illegal operation");
+                                        outWriter.println(incorrectOperationCommand);
+                                        printReturn(Integer.toString(incorrectOperationCommand));
+                                    }
+
                                 }
                                 //Send data back to client
                                 // outWriter.println(message);
@@ -87,10 +121,9 @@ public class Server {
                             // Deconstruct inBuffer and outWriter
                         }
                     } catch(Exception e) {
-                        System.out.println("Couldn't accept client");
+                    //     System.out.println("Couldn't accept client");
                     }
 
-                    System.out.println("connected");
                 }
             } finally { // Change to catch
                 server.close();
