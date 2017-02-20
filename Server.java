@@ -44,7 +44,7 @@ public class Server {
                     try {
                         client = server.accept();
                         // TODO make sure this address is right when running on two IP addresses
-                        System.out.println("get connection from ... " + client.getInetAddress());
+                        System.out.println("get connection from ... " + client.getInetAddress().getHostAddress());
 
                         try {
                             inBuffer = new BufferedReader(new InputStreamReader(client.getInputStream()));
