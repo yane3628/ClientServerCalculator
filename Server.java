@@ -13,11 +13,11 @@ public class Server {
     private static int exitCode = -5;
 
     public static void printGet(String message) {
-        System.out.println("get: " + message);
+        System.out.print("get: " + message);
     }
 
     public static void printReturn(String message) {
-        System.out.print(", return: " + message);
+        System.out.println(", return: " + message);
     }
 
     public static void main(String[] args) throws Exception {
@@ -76,6 +76,7 @@ public class Server {
                                 }
                                 else {
                                     outWriter.println("0");
+                                    printReturn(Integer.toString(0));
                                 }
                                 //Send data back to client
                                 // outWriter.println(message);
