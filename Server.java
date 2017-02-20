@@ -62,7 +62,7 @@ public class Server {
                                 message = inBuffer.readLine();
                                 printGet(message);
 
-                                String[] messageArray = message.split(" ");
+                                String[] messageArray = message.split("\\s+");
 
                                 if (message.equalsIgnoreCase("bye")) {
                                     outWriter.println(exitCode);
