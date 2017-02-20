@@ -33,6 +33,11 @@ public class Server {
     }
 
     public static void main(String[] args) throws Exception {
+        if(args.length != 1){
+            System.out.println("Not enough arguments");
+            System.exit(-1);
+        }
+
         ServerSocket server = null;
         Socket client = null;
         BufferedReader inBuffer = null;
@@ -69,7 +74,12 @@ public class Server {
                         // Loop that constantly reads from client
                         while(true) {
                             message = inBuffer.readLine();
-                            printGet(message);
+                            if(message != null) {
+                                printGet(message);
+                            } else {
+                                System.out.println("Client closed unexpectedly");
+                                client.close();
+                            }
 
                             String[] messageArray = message.split("\\s+");
 
